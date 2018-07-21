@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 public class HandControls : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class HandControls : MonoBehaviour
     [SerializeField]
     private Transform hand;
 
-    #region controls keys
+    #region keybord controls keys
     [SerializeField]
     private KeyCode grabKey;
 
@@ -48,6 +49,30 @@ public class HandControls : MonoBehaviour
     private KeyCode rotateForwardKey;
     #endregion
 
+
+    #region cnotroller controls keys
+    [SerializeField]
+    private InputControlType controllerGrabKey;
+
+    [SerializeField]
+    private InputControlType controllerRudeKey;
+
+    [SerializeField]
+    private InputControlType controllerMetalKey;
+
+    [SerializeField]
+    private InputControlType controllerMoveXAxisKey;
+
+    [SerializeField]
+    private InputControlType controllerMoveYAxisKey;
+
+    [SerializeField]
+    private InputControlType controllerMoveZAxisKey;
+
+    [SerializeField]
+    private InputControlType controllerRotateAxisKey;
+    #endregion
+
     [SerializeField]
     private float moveSpeed = 0.25f;
 
@@ -57,34 +82,45 @@ public class HandControls : MonoBehaviour
     [SerializeField]
     private bool reverseRotate;
 
+
+    private bool WasPressed(InputControlType controlType)
+    {
+        return InputManager.ActiveDevice.GetControl(controlType).WasPressed;
+    }
+
+    private bool WasReleased(InputControlType controlType)
+    {
+        return InputManager.ActiveDevice.GetControl(controlType).WasReleased;
+    }
+
     private void CheckGesture()
     {
-        if (Input.GetKeyDown(grabKey))
+        if (Input.GetKeyDown(grabKey) || WasPressed(controllerGrabKey))
         {
             handAnimator.SetBool("Grab", true);
         }
 
-        if (Input.GetKeyUp(grabKey))
+        if (Input.GetKeyUp(grabKey) || WasReleased(controllerGrabKey))
         {
             handAnimator.SetBool("Grab", false);
         }
 
-        if (Input.GetKeyDown(rudeKey))
+        if (Input.GetKeyDown(rudeKey) || WasPressed(controllerRudeKey))
         {
             handAnimator.SetBool("Rude", true);
         }
 
-        if (Input.GetKeyUp(rudeKey))
+        if (Input.GetKeyUp(rudeKey) || WasReleased(controllerRudeKey))
         {
             handAnimator.SetBool("Rude", false);
         }
 
-        if (Input.GetKeyDown(metalKey))
+        if (Input.GetKeyDown(metalKey) || WasPressed(controllerMetalKey))
         {
             handAnimator.SetBool("Metal", true);
         }
 
-        if (Input.GetKeyUp(metalKey))
+        if (Input.GetKeyUp(metalKey) || WasReleased(controllerMetalKey))
         {
             handAnimator.SetBool("Metal", false);
         }
@@ -153,6 +189,17 @@ public class HandControls : MonoBehaviour
         {
             MoveBackward();
         }
+    }
+
+    private void CheckControllerMove()
+    {
+        var horizontalMove = InputManager.ActiveDevice.GetControl(controllerMoveXAxisKey).Value;
+        var verticalMove = InputManager.ActiveDevice.GetControl(controllerMoveYAxisKey).Value;
+        var depthMove = InputManager.ActiveDevice.GetControl(controllerMoveZAxisKey).Value;
+
+        hand.Translate(new Vector3(horizontalMove, 0, 0) * Time.deltaTime * moveSpeed);
+        hand.Translate(new Vector3(0, verticalMove, 0) * Time.deltaTime * moveSpeed);
+        hand.Translate(new Vector3(0, 0, depthMove) * Time.deltaTime * moveSpeed);
     }
 
     private void Rotate(Vector3 direction)
@@ -264,10 +311,18 @@ public class HandControls : MonoBehaviour
         }
     }
 
+    private void CheckControllerRotate()
+    {
+        var rotate = InputManager.ActiveDevice.GetControl(controllerRotateAxisKey).Value;
+        Rotate(new Vector3(0, 0, -rotate));
+    }
+
     private void Update()
     {
         CheckGesture();
         CheckMove();
         CheckRotate();
+        CheckControllerMove();
+        CheckControllerRotate();
     }
 }
