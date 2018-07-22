@@ -379,6 +379,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1453077905183030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4597478457818970}
+  - component: {fileID: 114104205589776038}
+  m_Layer: 0
+  m_Name: InControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1466057684604356
 GameObject:
   m_ObjectHideFlags: 1
@@ -390,6 +406,7 @@ GameObject:
   - component: {fileID: 95331728153266900}
   - component: {fileID: 54368826099559560}
   - component: {fileID: 65169961728114362}
+  - component: {fileID: 114224560229352972}
   m_Layer: 0
   m_Name: LeftHandMesh
   m_TagString: Untagged
@@ -1412,7 +1429,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466057684604356}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1435,6 +1452,7 @@ Transform:
   - {fileID: 4513992755181386}
   - {fileID: 224460595648912146}
   - {fileID: 4833468682005378}
+  - {fileID: 4597478457818970}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -1465,6 +1483,19 @@ Transform:
   - {fileID: 4890273105387972}
   m_Father: {fileID: 4880546408254498}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4597478457818970
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453077905183030}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -7.13, y: -0.59, z: 11.400002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4508469642603014}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4597624571799790
 Transform:
@@ -1960,6 +1991,55 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 100
   reverseRotate: 0
+  OnBeginGrab:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114224560229352972}
+        m_MethodName: BeginGrab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEndGrab:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114224560229352972}
+        m_MethodName: EndGrab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114104205589776038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1453077905183030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b5e8de77c5b4597ae7fbfb49a95e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logDebugInfo: 0
+  invertYAxis: 0
+  enableXInput: 0
+  useFixedUpdate: 0
+  dontDestroyOnLoad: 0
+  customProfiles: []
 --- !u!114 &114108515940173690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2023,6 +2103,19 @@ MonoBehaviour:
     Rotate forward: B
 
     Rotate backward: SHIFT+B'
+--- !u!114 &114224560229352972
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1466057684604356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb3209f6f48343f6903a3e57bcae71f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactables: {fileID: 0}
+  hand: {fileID: 4072974977322304}
 --- !u!114 &114456425002052900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2058,6 +2151,16 @@ MonoBehaviour:
   moveSpeed: 0.25
   rotateSpeed: 50
   reverseRotate: 1
+  OnBeginGrab:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnEndGrab:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114646031516906236
 MonoBehaviour:
   m_ObjectHideFlags: 1

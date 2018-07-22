@@ -5,6 +5,8 @@ using UnityEngine;
 public class BucketController : MonoBehaviour {
 
 	public Obi.ObiEmitter emitter;
+
+    private bool pouring = false;
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,5 +21,17 @@ public class BucketController : MonoBehaviour {
 			emitter.KillAll();
 		}
 
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            if (pouring)
+            {
+                emitter.speed = 0;
+            }
+            else
+            {
+                emitter.speed = 4;
+            }
+            pouring = !pouring;
+        }
 	}
 }
