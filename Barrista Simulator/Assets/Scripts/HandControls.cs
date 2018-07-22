@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using InControl;
 
 public class HandControls : MonoBehaviour
@@ -82,6 +83,14 @@ public class HandControls : MonoBehaviour
     [SerializeField]
     private bool reverseRotate;
 
+    #region events
+    [SerializeField]
+    private UnityEvent OnBeginGrab;
+
+    [SerializeField]
+    private UnityEvent OnEndGrab;
+    #endregion
+
 
     private bool WasPressed(InputControlType controlType)
     {
@@ -98,11 +107,13 @@ public class HandControls : MonoBehaviour
         if (Input.GetKeyDown(grabKey) || WasPressed(controllerGrabKey))
         {
             handAnimator.SetBool("Grab", true);
+            OnBeginGrab.Invoke();
         }
 
         if (Input.GetKeyUp(grabKey) || WasReleased(controllerGrabKey))
         {
             handAnimator.SetBool("Grab", false);
+            OnEndGrab.Invoke();
         }
 
         if (Input.GetKeyDown(rudeKey) || WasPressed(controllerRudeKey))
