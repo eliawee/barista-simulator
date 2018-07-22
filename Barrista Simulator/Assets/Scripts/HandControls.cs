@@ -139,17 +139,17 @@ public class HandControls : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        hand.Translate(direction * Time.deltaTime * moveSpeed);
+        hand.Translate(direction * Time.deltaTime * moveSpeed, Space.World);
     }
 
     private void MoveLeft()
     {
-        Move(Vector3.left);
+        Move(Vector3.back);
     }
 
     private void MoveRight()
     {
-        Move(Vector3.right);
+        Move(Vector3.forward);
     }
 
     private void MoveUp()
@@ -164,12 +164,12 @@ public class HandControls : MonoBehaviour
 
     private void MoveForward()
     {
-        Move(Vector3.forward);
+        Move(Vector3.left);
     }
 
     private void MoveBackward()
     {
-        Move(Vector3.back);
+        Move(Vector3.right);
     }
 
     private void CheckMove()
@@ -208,9 +208,9 @@ public class HandControls : MonoBehaviour
         var verticalMove = InputManager.ActiveDevice.GetControl(controllerMoveYAxisKey).Value;
         var depthMove = InputManager.ActiveDevice.GetControl(controllerMoveZAxisKey).Value;
 
-        hand.Translate(new Vector3(horizontalMove, 0, 0) * Time.deltaTime * moveSpeed);
-        hand.Translate(new Vector3(0, verticalMove, 0) * Time.deltaTime * moveSpeed);
-        hand.Translate(new Vector3(0, 0, depthMove) * Time.deltaTime * moveSpeed);
+        hand.Translate(new Vector3(0, 0, horizontalMove) * Time.deltaTime * moveSpeed, Space.World);
+        hand.Translate(new Vector3(0, verticalMove, 0) * Time.deltaTime * moveSpeed, Space.World);
+        hand.Translate(new Vector3(-depthMove, 0, 0) * Time.deltaTime * moveSpeed, Space.World);
     }
 
     private void Rotate(Vector3 direction)
