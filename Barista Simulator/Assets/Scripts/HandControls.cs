@@ -333,7 +333,7 @@ public class HandControls : MonoBehaviour
     private void CheckControllerRotate()
     {
         var rotate = InputManager.ActiveDevice.GetControl(controllerRotateAxisKey).Value;
-        Rotate(new Vector3(0, 0, -rotate));
+        handBody.angularVelocity = new Vector3(rotate, 0, 0);
     }
 
     private void Update()
