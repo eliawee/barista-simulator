@@ -12,6 +12,9 @@ public class HandControls : MonoBehaviour
     [SerializeField]
     private Transform hand;
 
+    [SerializeField]
+    private Rigidbody handBody;
+
     #region keybord controls keys
     [SerializeField]
     private KeyCode grabKey;
@@ -54,6 +57,9 @@ public class HandControls : MonoBehaviour
     #region cnotroller controls keys
     [SerializeField]
     private InputControlType controllerGrabKey;
+
+    [SerializeField]
+    private InputControlType controllerAlternativeGrabKey;
 
     [SerializeField]
     private InputControlType controllerRudeKey;
@@ -104,13 +110,13 @@ public class HandControls : MonoBehaviour
 
     private void CheckGesture()
     {
-        if (Input.GetKeyDown(grabKey) || WasPressed(controllerGrabKey))
+        if (Input.GetKeyDown(grabKey) || WasPressed(controllerGrabKey) || WasPressed(controllerAlternativeGrabKey))
         {
             handAnimator.SetBool("Grab", true);
             OnBeginGrab.Invoke();
         }
 
-        if (Input.GetKeyUp(grabKey) || WasReleased(controllerGrabKey))
+        if (Input.GetKeyUp(grabKey) || WasReleased(controllerGrabKey) || WasReleased(controllerAlternativeGrabKey))
         {
             handAnimator.SetBool("Grab", false);
             OnEndGrab.Invoke();
@@ -208,9 +214,11 @@ public class HandControls : MonoBehaviour
         var verticalMove = InputManager.ActiveDevice.GetControl(controllerMoveYAxisKey).Value;
         var depthMove = InputManager.ActiveDevice.GetControl(controllerMoveZAxisKey).Value;
 
-        hand.Translate(new Vector3(0, 0, horizontalMove) * Time.deltaTime * moveSpeed, Space.World);
-        hand.Translate(new Vector3(0, verticalMove, 0) * Time.deltaTime * moveSpeed, Space.World);
-        hand.Translate(new Vector3(-depthMove, 0, 0) * Time.deltaTime * moveSpeed, Space.World);
+        handBody.velocity = new Vector3(
+            -depthMove * moveSpeed,
+            verticalMove * moveSpeed,
+            horizontalMove * moveSpeed
+        );
     }
 
     private void Rotate(Vector3 direction)
@@ -331,8 +339,8 @@ public class HandControls : MonoBehaviour
     private void Update()
     {
         CheckGesture();
-        CheckMove();
-        CheckRotate();
+        //CheckMove();
+        //CheckRotate();
         CheckControllerMove();
         CheckControllerRotate();
     }
