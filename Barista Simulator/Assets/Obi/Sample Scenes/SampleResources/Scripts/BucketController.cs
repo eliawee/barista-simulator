@@ -5,20 +5,17 @@ using UnityEngine;
 public class BucketController : MonoBehaviour {
 
 	public Obi.ObiEmitter emitter;
+    public Obi.ObiEmitter milkEmitter;
 
     private bool pouring = false;
-	
-	// Update is called once per frame
-	void Update () {
+    private bool milkPouring = false;
 
-		if (Input.GetKey(KeyCode.D)){
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.AngleAxis(90,-transform.forward),Time.deltaTime*50);
-		}else{
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity,Time.deltaTime*100);
-		}
-
-		if (Input.GetKey(KeyCode.R)){
+    void Update ()
+    {
+		if (Input.GetKey(KeyCode.R))
+        {
 			emitter.KillAll();
+            milkEmitter.KillAll();
 		}
 
         if (Input.GetKeyDown(KeyCode.O))
@@ -32,6 +29,19 @@ public class BucketController : MonoBehaviour {
                 emitter.speed = 4;
             }
             pouring = !pouring;
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (milkPouring)
+            {
+                milkEmitter.speed = 0;
+            }
+            else
+            {
+                milkEmitter.speed = 4;
+            }
+            milkPouring = !milkPouring;
         }
 	}
 }
